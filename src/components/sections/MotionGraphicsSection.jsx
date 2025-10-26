@@ -60,7 +60,7 @@ const MotionGraphicsSection = () => {
         );
 
         setProjects(projectsWithUrls);
-        console.log(projectsWithUrls);
+        // console.log(projectsWithUrls);
 
       } catch (err) {
         console.error("Error loading projects:", err);

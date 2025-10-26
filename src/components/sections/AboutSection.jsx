@@ -128,7 +128,7 @@ const AboutSection = () => {
                 }`}
             >
               <div className="space-y-6">
-                <div className="prose prose-lg dark:prose-invert max-w-none">
+                <div className="prose prose-lg dark:prose-invert max-w-none text-justify">
                   {aboutData.description.split('\n\n').map((paragraph, index) => (
                     <p
                       key={index}

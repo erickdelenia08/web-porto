@@ -13,7 +13,9 @@ export const personalInfo = {
 };
 
 export const aboutData = {
-  description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum`,
+  description: `I have a strong academic background in Mathematics, with solid analytical skills in data analysis, statistics, and predictive modeling. Over the years, I’ve been actively involved in research and have published several scientific works focusing on data analytics and machine learning, such as Credit Risk Prediction with Macroeconomic Indicators and Image Steganography Detection using CNN.
+Beyond coding and data-related work, I am also passionate about motion graphics and visual storytelling, combining technical precision with creative design. I’m proficient in programming languages such as Python, JavaScript, and SQL, which I often integrate into creative projects to build interactive and visually engaging experiences.
+`,
   education: [
     {
       degree: "Informatics Engineering",
@@ -36,10 +38,9 @@ export const projects = [
     title: "COVID-19 Data Visualization Dashboard",
     description: "Interactive dashboard analyzing COVID-19 trends across Indonesian provinces using real-time data and predictive modeling.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-    tags: ["Python", "Dash", "Pandas", "Plotly"],
+    tags: ["Python", "Dash", "Pandas", "Apps"],
     githubUrl: "https://github.com/erickdelenia/covid-dashboard",
     liveUrl: "https://covid-dashboard-demo.vercel.app",
-    featured: true
   },
   
   {
@@ -47,10 +48,9 @@ export const projects = [
     title: "Cryptocurrency Price Predictor",
     description: "LSTM-based deep learning model for predicting cryptocurrency prices with real-time market sentiment analysis integration.",
     image: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=600&h=400&fit=crop",
-    tags: ["Python", "TensorFlow", "LSTM", "API Integration"],
+    tags: ["Python", "TensorFlow", "LSTM", "API Integration","data"],
     githubUrl: "https://github.com/erickdelenia/crypto-predictor",
     liveUrl: "https://crypto-predictor-demo.herokuapp.com",
-    featured: false
   }
 ];
 

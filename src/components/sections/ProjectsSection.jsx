@@ -4,15 +4,47 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ExternalLink, Github, Star, Filter } from "lucide-react";
-import { projects } from "../../data/mock";
+// import { projects } from "../../data/mock";
+import { supabase } from "../../lib/supabaseClient";
 
 const ProjectsSection = () => {
+  const [projects, setProjects] = useState([]);
+
   const [isVisible, setIsVisible] = useState(false);
   const [filter, setFilter] = useState("all");
   const [hoveredProject, setHoveredProject] = useState(null);
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("it_projects")
+          .select("*");
+        if (error) throw error;
+
+        // Dapatkan URL publik untuk video & thumbnail
+        const projectsWithUrls = await Promise.all(
+          data.map(async (project) => {
+            const {data:{publicUrl}} = supabase.storage
+              .from("images")
+              .getPublicUrl(project.image_url);
+            project.image_url=publicUrl
+            return project;
+          })
+        );
+
+        setProjects(projectsWithUrls);
+        console.log(projectsWithUrls);
+
+      } catch (err) {
+        console.error("Error loading projects:", err);
+      } 
+    };
+
+    fetchProjects();
+
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -35,14 +67,11 @@ const ProjectsSection = () => {
 
   const filteredProjects = projects.filter((project) => {
     if (filter === "all") return true;
-    if (filter === "featured") return project.featured;
     return project.tags.some(tag => tag.toLowerCase().includes(filter));
   });
 
   const filterOptions = [
     { value: "all", label: "All Projects" },
-    // { value: "featured", label: "Featured" },
-    // { value: "react", label: "React" },
     { value: "apps", label: "Apps" },
     { value: "data", label: "Data" },
   ];
@@ -55,11 +84,10 @@ const ProjectsSection = () => {
     >
       <div className="max-w-6xl mx-auto">
         <div
-          className={`transform transition-all duration-1000 ${
-            isVisible
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0"
-          }`}
+          className={`transform transition-all duration-1000 ${isVisible
+            ? "translate-y-0 opacity-100"
+            : "translate-y-8 opacity-0"
+            }`}
         >
           {/* Section Header */}
           <div className="text-center mb-16">
@@ -92,11 +120,10 @@ const ProjectsSection = () => {
             {filteredProjects.map((project, index) => (
               <Card
                 key={project.id}
-                className={`group cursor-pointer transition-all duration-500 hover:shadow-xl hover:-translate-y-2 bg-white dark:bg-slate-900 border-0 shadow-md overflow-hidden transform ${
-                  isVisible
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0"
-                }`}
+                className={`group cursor-pointer transition-all duration-500 hover:shadow-xl hover:-translate-y-2 bg-white dark:bg-slate-900 border-0 shadow-md overflow-hidden transform ${isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+                  }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
                 onMouseEnter={() => setHoveredProject(project.id)}
                 onMouseLeave={() => setHoveredProject(null)}
@@ -104,37 +131,36 @@ const ProjectsSection = () => {
                 {/* Project Image */}
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={project.image}
+                    src={project.image_url}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   {/* Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent transition-opacity duration-300 ${
-                    hoveredProject === project.id ? "opacity-100" : "opacity-0"
-                  }`}>
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent transition-opacity duration-300 ${hoveredProject === project.id ? "opacity-100" : "opacity-0"
+                    }`}>
                     <div className="absolute bottom-4 left-4 right-4 flex space-x-2">
-                      {project.githubUrl && (
+                      {project.github_url && (
                         <Button
                           size="sm"
                           variant="secondary"
                           className="bg-white/90 hover:bg-white text-gray-900"
-                          onClick={() => window.open(project.githubUrl, '_blank')}
+                          onClick={() => window.open(project.github_url, '_blank')}
                         >
                           <Github className="w-4 h-4" />
                         </Button>
                       )}
-                      {project.liveUrl && (
+                      {project.live_url && (
                         <Button
                           size="sm"
                           className="bg-[#00b4d8] hover:bg-[#0077b6] text-white"
-                          onClick={() => window.open(project.liveUrl, '_blank')}
+                          onClick={() => window.open(project.live_url, '_blank')}
                         >
                           <ExternalLink className="w-4 h-4" />
                         </Button>
                       )}
                     </div>
                   </div>
-                  
+
                   {/* Featured Badge */}
                   {project.featured && (
                     <div className="absolute top-4 right-4">
@@ -150,7 +176,7 @@ const ProjectsSection = () => {
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-[#00b4d8] transition-colors duration-300">
                     {project.title}
                   </h3>
-                  
+
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
                     {project.description}
                   </p>
@@ -170,22 +196,22 @@ const ProjectsSection = () => {
 
                   {/* Action Buttons */}
                   <div className="flex space-x-2">
-                    {project.githubUrl && (
+                    {project.github_url && (
                       <Button
                         variant="outline"
                         size="sm"
                         className="flex-1 border-[#00b4d8] text-[#00b4d8] hover:bg-[#00b4d8] hover:text-white"
-                        onClick={() => window.open(project.githubUrl, '_blank')}
+                        onClick={() => window.open(project.github_url, '_blank')}
                       >
                         <Github className="w-4 h-4 mr-2" />
                         Code
                       </Button>
                     )}
-                    {project.liveUrl && (
+                    {project.live_url && (
                       <Button
                         size="sm"
                         className="flex-1 bg-[#00b4d8] hover:bg-[#0077b6] text-white"
-                        onClick={() => window.open(project.liveUrl, '_blank')}
+                        onClick={() => window.open(project.live_url, '_blank')}
                       >
                         <ExternalLink className="w-4 h-4 mr-2" />
                         Live Demo
