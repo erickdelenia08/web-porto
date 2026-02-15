@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Download, ArrowDown, Code, Database, Palette } from "lucide-react";
 import { personalInfo } from "../../data/mock";
+import { supabase } from "../../lib/supabaseClient";
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -9,7 +10,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     setIsVisible(true);
-    
+
     const handleMouseMove = (e) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
@@ -32,9 +33,16 @@ const HeroSection = () => {
     }
   };
 
-  const downloadCV = () => {
-    // Mock CV download
-    alert("not avaliable yet :)");
+  const downloadCV = async () => {
+    const { data } = supabase.storage
+      .from("cv-files")
+      .getPublicUrl("cv-erick.pdf");
+
+    if (data?.publicUrl) {
+      window.open(data.publicUrl, "_blank");
+    } else {
+      alert("File not found");
+    }
   };
 
   return (
@@ -58,7 +66,7 @@ const HeroSection = () => {
             bottom: `${20 + mousePosition.y * 0.03}%`,
           }}
         />
-        
+
         {/* Floating Icons */}
         <div className="absolute top-1/4 left-1/4 opacity-20 animate-float">
           <Code className="w-8 h-8 text-[#00b4d8]" />
@@ -74,11 +82,10 @@ const HeroSection = () => {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Main Content */}
         <div
-          className={`transform transition-all duration-1000 ${
-            isVisible
+          className={`transform transition-all duration-1000 ${isVisible
               ? "translate-y-0 opacity-100"
               : "translate-y-8 opacity-0"
-          }`}
+            }`}
         >
           <div className="mb-8">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-[#00b4d8]/10 text-[#0077b6] border border-[#00b4d8]/20 mb-6">
@@ -94,21 +101,19 @@ const HeroSection = () => {
           </h1>
 
           <p
-            className={`text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed transform transition-all duration-1000 delay-300 ${
-              isVisible
+            className={`text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed transform transition-all duration-1000 delay-300 ${isVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-8 opacity-0"
-            }`}
+              }`}
           >
             {personalInfo.tagline}
           </p>
 
           <div
-            className={`flex flex-col sm:flex-row gap-4 justify-center items-center transform transition-all duration-1000 delay-500 ${
-              isVisible
+            className={`flex flex-col sm:flex-row gap-4 justify-center items-center transform transition-all duration-1000 delay-500 ${isVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-8 opacity-0"
-            }`}
+              }`}
           >
             <Button
               onClick={scrollToProjects}
@@ -129,11 +134,10 @@ const HeroSection = () => {
 
         {/* Scroll Indicator */}
         <div
-          className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-1000 delay-1000 ${
-            isVisible
+          className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-1000 delay-1000 ${isVisible
               ? "translate-y-0 opacity-100"
               : "translate-y-8 opacity-0"
-          }`}
+            }`}
         >
           <div className="flex flex-col items-center space-y-2 animate-bounce">
             <span className="text-sm text-gray-500 dark:text-gray-400">
