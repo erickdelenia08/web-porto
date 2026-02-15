@@ -35,8 +35,8 @@ const HeroSection = () => {
 
   const downloadCV = async () => {
     const { data } = supabase.storage
-      .from("cv-files")
-      .getPublicUrl("cv-erick.pdf");
+      .from("documents")
+      .getPublicUrl("Erick Delenia_Data Analyst.pdf");
 
     if (data?.publicUrl) {
       window.open(data.publicUrl, "_blank");
