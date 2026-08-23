@@ -41,16 +41,16 @@ export default function WelcomeModal() {
 
           {/* Pesan */}
           <p className="font-montserrat text-xs sm:text-sm text-stone-300 leading-relaxed pt-2">
-            Website ini masih dalam tahap pengembangan aktif. Beberapa fitur dan animasi interaktif terus dioptimalkan.
+            This website is still under active development. Some features may not be working as intended.
           </p>
 
           {/* Rekomendasi Device */}
           <div className="bg-stone-900/80 border border-white/10 rounded-xl p-4 text-left space-y-1">
             <p className="font-montserrat text-xs font-semibold text-[#d3bc9b] uppercase tracking-wider">
-              💡 Rekomendasi Perangkat
+              💡 Device Recommendations
             </p>
             <p className="font-montserrat text-xs text-stone-400 leading-normal">
-              Gunakan **PC / Laptop** untuk pengalaman visual, interaksi motion, dan tata letak yang paling maksimal.
+              Use a **PC / Laptop** for the best visual experience, interactive motion, and optimal layout.
             </p>
           </div>
 
@@ -59,7 +59,7 @@ export default function WelcomeModal() {
             onClick={handleClose}
             className="w-full bg-[#d3bc9b] hover:bg-[#b8a082] text-black font-montserrat text-xs font-bold py-3 uppercase tracking-widest transition-all duration-300 mt-4"
           >
-            Lanjutkan Eksplorasi
+            Continue Exploration
           </Button>
         </div>
       </div>

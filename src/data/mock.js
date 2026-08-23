@@ -4,8 +4,8 @@ import profile from "../assets/images/profile.jpeg"
 
 export const personalInfo = {
   name: "Erick Delenia",
-  title: "Data Scientist & Creative Developer",
-  tagline: "Blending code and creativity, crafting interactive experiences that merge precise programming with dynamic motion design — turning ideas into smooth, engaging visuals driven by technology and art.",
+  title: "Full Stack Developer & Motion Graphics Designer",
+  tagline: "BlendinSolid architecture. Dynamic motion. Building interactive experiences driven by technology and designg code and creativity, crafting interactive experiences that merge precise programming with dynamic motion design — turning ideas into smooth, engaging visuals driven by technology and art.",
   email: "erickdelenia08@gmail.com",
   location: "Indonesia",
   profileImage: profile,
