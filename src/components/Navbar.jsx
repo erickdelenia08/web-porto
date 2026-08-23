@@ -1,148 +1,112 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "./ui/button";
-import { useTheme } from "../contexts/ThemeContext";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import React, { useState, useEffect } from 'react';
 
-const Navbar = () => {
-  const { isDarkMode, toggleTheme } = useTheme();
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
 
-  const navItems = [
-    { label: "About", href: "#about" },
-    { label: "Projects", href: "#projects" },
-    { label: "Motion Graphics", href: "#motion-graphics" },
-    { label: "Skills", href: "#skills" },
-    // { label: "Blog", href: "#blog" },
-    { label: "Contact", href: "#contact" },
-  ];
+  const navItems = ['HOME', 'ABOUT', 'PROJECT', 'SKILLS', 'CONTACT'];
 
+  // Handle Scroll Direction (Show/Hide Navbar)
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      
-      // Update active section based on scroll position
-      const sections = ["hero", "about", "projects", "motion-graphics", "skills", "contact"];
-      const currentSection = sections.find((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        return false;
-      });
-      
-      if (currentSection) {
-        setActiveSection(currentSection);
+      const currentScrollY = window.scrollY;
+
+      // Sembunyikan navbar jika scroll ke bawah, tampilkan jika scroll ke atas
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setIsScrolled(true); // Hide
+      } else {
+        setIsScrolled(false); // Show
       }
+
+      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
-  const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      const offsetTop = element.offsetTop - 80;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: "smooth",
-      });
+  // Prevent scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
     }
-    setIsMobileMenuOpen(false);
-  };
+  }, [isMobileMenuOpen]);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <button
-            onClick={() => scrollToSection("#hero")}
-            className="text-xl font-bold text-[#00b4d8] hover:text-[#0077b6] transition-colors duration-200"
+    <>
+      {/* Header Container (Auto Hide on Scroll Down) */}
+      <header 
+        className={`fixed left-0 w-full z-50 flex justify-center px-4 transition-transform duration-300 ease-in-out ${
+          isScrolled ? '-translate-y-[150%]' : 'translate-y-6'
+        }`}
+      >
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8 px-10 py-3 bg-[#a88a64] rounded-full shadow-lg">
+          {navItems.map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className="font-montserrat text-sm font-bold tracking-wider text-black hover:opacity-75 transition-opacity"
+            >
+              {item}
+            </a>
+          ))}
+        </nav>
+
+        {/* Mobile Hamburger Icon (Visible only on small screens) */}
+        <div className="flex md:hidden w-full justify-end">
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open Menu"
+            className="p-3 bg-[#a88a64] text-black rounded-full shadow-lg focus:outline-none"
           >
-            ED
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
           </button>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => scrollToSection(item.href)}
-                className={`text-sm font-medium transition-colors duration-200 hover:text-[#00b4d8] ${
-                  activeSection === item.href.slice(1)
-                    ? "text-[#00b4d8]"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Theme Toggle & Mobile Menu */}
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTheme}
-              className="p-2"
-            >
-              {isDarkMode ? (
-                <Sun className="h-4 w-4" />
-              ) : (
-                <Moon className="h-4 w-4" />
-              )}
-            </Button>
-
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2"
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-4 w-4" />
-              ) : (
-                <Menu className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
         </div>
+      </header>
+
+      {/* --- MOBILE FULLSCREEN MENU OVERLAY --- */}
+      <div 
+        className={`fixed inset-0 bg-[#0e0d0d] z-[60] flex flex-col justify-center items-center transition-all duration-500 ease-in-out ${
+          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        }`}
+      >
+        {/* Close Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="absolute top-8 right-8 text-[#a88a64] p-2 focus:outline-none"
+          aria-label="Close Menu"
+        >
+          <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* Mobile Nav Links */}
+        <nav className="flex flex-col gap-8 text-center">
+          {navItems.map((item, index) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="font-bebas text-5xl tracking-widest text-[#a88a64] hover:text-white transition-colors"
+              style={{
+                transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : '0ms',
+                transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
+                opacity: isMobileMenuOpen ? 1 : 0,
+                transition: 'all 0.4s ease-out',
+              }}
+            >
+              {item}
+            </a>
+          ))}
+        </nav>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border">
-          <div className="px-4 pt-2 pb-4 space-y-2">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => scrollToSection(item.href)}
-                className={`block w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-accent hover:text-accent-foreground ${
-                  activeSection === item.href.slice(1)
-                    ? "text-[#00b4d8] bg-accent"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-    </nav>
+    </>
   );
-};
-
-export default Navbar;
+}

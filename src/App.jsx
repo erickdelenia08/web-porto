@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { Toaster } from "./components/ui/toaster";
@@ -7,13 +7,14 @@ import Home from "./pages/Home";
 import "./App.css";
 
 function App() {
+  const topSentinelRef=useRef()
   return (
     <ThemeProvider>
       <div className="App min-h-screen bg-background text-foreground transition-colors duration-300">
         <BrowserRouter>
-          <Navbar />
+          <Navbar ref={topSentinelRef}/>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home ref={topSentinelRef}/>} />
           </Routes>
           <Toaster />
         </BrowserRouter>

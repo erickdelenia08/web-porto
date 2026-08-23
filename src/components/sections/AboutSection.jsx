@@ -1,177 +1,156 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Card, CardContent } from "../ui/card";
-import { Badge } from "../ui/badge";
-import { MapPin, Calendar, GraduationCap } from "lucide-react";
-import { aboutData, personalInfo } from "../../data/mock";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextPlugin from "gsap/TextPlugin";
+import { useGSAP } from '@gsap/react';
+import Character from "../character/Character";
+
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const AboutSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
+  useGSAP(() => {
+    const panels = gsap.utils.toArray("#about > div");
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        pin: true,
+        scrub: 1,
+        start: "top top",
+        end: () => `+=${sectionRef.current.offsetWidth * (panels.length - 1)}`,
+        invalidateOnRefresh: true,
       }
-    };
-  }, []);
+    });
+
+    tl.to(panels, {
+      xPercent: -100 * (panels.length - 1),
+      ease: "none"
+    }, 0);
+
+    // PANEL 1: Typing Text
+    tl.to(".text-about", {
+      text: "CREATIVE DEVELOPER & DESIGNER",
+      duration: 0.1,
+    }, 0);
+
+    // PANEL 2: Cards Animation
+    tl.from(".card-pendidikan", {
+      opacity: 0,
+      y: 50,
+      stagger: 0.1,
+      duration: 0.2,
+    }, "<");
+
+    // PANEL 3: Line Growth
+    tl.from(".roadmap-line", {
+      scaleX: 0,
+      transformOrigin: "left center",
+      duration: 0.8,
+    }, 0.1);
+
+    tl.to(".char-parallax", {
+      xPercent: 20,
+      ease: "none"
+    }, "<+=-0.8");
+
+  }, { scope: sectionRef });
 
   return (
     <section
       id="about"
       ref={sectionRef}
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900"
+      className="bg-[#0e0d0d] text-white h-screen w-full flex flex-nowrap overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto">
-        <div
-          className={`transform transition-all duration-1000 ${isVisible
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0"
-            }`}
-        >
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              About Me
-            </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-[#00b4d8] to-[#0077b6] mx-auto rounded-full" />
+      {/* PANEL 1: INTRO & CHARACTER */}
+      <div className="w-screen shrink-0 flex items-center justify-between px-12 md:px-24">
+        <div className="flex-1 space-y-4">
+          <span className="font-montserrat text-xs text-[#d3bc9b] tracking-widest uppercase">
+            // ABOUT ME
+          </span>
+          <h1 className="font-bebas text-6xl md:text-8xl text-white leading-none">
+            ERICK <br />
+            <span className="text-[#d3bc9b] text-about">...</span>
+          </h1>
+          <p className="font-montserrat text-sm text-stone-400 max-w-md leading-relaxed">
+            Fokus menciptakan solusi digital yang menggabungkan struktur kode *full-stack* yang efisien dengan animasi *motion graphics* yang impresif.
+          </p>
+        </div>
+        <div className="flex-1 flex justify-center items-center">
+          <Character className="h-2/3 character" />
+        </div>
+      </div>
+
+      {/* PANEL 2: EDUCATION & EXPERIENCE */}
+      <div className="panel w-screen shrink-0 flex flex-col justify-center items-center px-12 md:px-24">
+        <h2 className="font-bebas text-5xl md:text-6xl text-[#d3bc9b] tracking-wide mb-8">
+          EDUCATION
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+          <div className="card-pendidikan bg-stone-900/80 border border-white/10 p-6 rounded-2xl backdrop-blur-md">
+            <span className="text-[#d3bc9b] font-montserrat text-xs">2019 - 2023</span>
+            <h3 className="font-bebas text-2xl text-white mt-1">Universitas Jember</h3>
+            <p className="font-montserrat text-xs text-stone-400 mt-2">
+              S1 Matematika.
+            </p>
+          </div>
+          
+          <div className="card-pendidikan bg-stone-900/80 border border-white/10 p-6 rounded-2xl backdrop-blur-md">
+            <span className="text-[#d3bc9b] font-montserrat text-xs">2023 - 2025</span>
+            <h3 className="font-bebas text-2xl text-white mt-1">ITS Surabaya</h3>
+            <p className="font-montserrat text-xs text-stone-400 mt-2">
+              S2 Teknik Informatika.
+            </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Profile Image and Info */}
-            <div
-              className={`transform transition-all duration-1000 delay-300 ${isVisible
-                  ? "translate-x-0 opacity-100"
-                  : "-translate-x-8 opacity-0"
-                }`}
-            >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-[#00b4d8] to-[#0077b6] rounded-2xl transform rotate-6 scale-105 opacity-20" />
-                <div className="relative bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="relative mb-6">
-                      <div className="w-40 h-40 rounded-full overflow-hidden ring-4 ring-[#00b4d8]/20">
-                        <img
-                          src={personalInfo.profileImage}
-                          alt={personalInfo.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-[#00b4d8] rounded-full flex items-center justify-center">
-                        <GraduationCap className="w-6 h-6 text-white" />
-                      </div>
-                    </div>
-
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                      {personalInfo.name}
-                    </h3>
-
-                    <p className="text-[#00b4d8] font-semibold mb-4">
-                      {personalInfo.title}
-                    </p>
-
-                    <div className="flex items-center text-gray-600 dark:text-gray-400 mb-6">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      {personalInfo.location}
-                    </div>
-
-                    <div className="space-y-3 w-full">
-                      {aboutData.education.map((edu, index) => (
-                        <div
-                          key={index}
-                          className="text-left p-3 bg-gray-50 dark:bg-slate-700 rounded-lg"
-                        >
-                          <div className="flex items-center mb-1">
-                            <Calendar className="w-3 h-3 mr-2 text-[#00b4d8]" />
-                            <span className="text-sm text-gray-600 dark:text-gray-400">
-                              {edu.year}
-                            </span>
-                          </div>
-                          <h4 className="font-semibold text-sm text-gray-900 dark:text-white">
-                            {edu.degree}
-                          </h4>
-                          <p className="text-xs text-gray-600 dark:text-gray-400">
-                            {edu.institution}
-                          </p>
-                          <Badge
-                            variant="secondary"
-                            className="mt-1 text-xs bg-[#00b4d8]/10 text-[#0077b6] border-[#00b4d8]/20"
-                          >
-                            {edu.focus}
-                          </Badge>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Description */}
-            <div
-              className={`transform transition-all duration-1000 delay-500 ${isVisible
-                  ? "translate-x-0 opacity-100"
-                  : "translate-x-8 opacity-0"
-                }`}
-            >
-              <div className="space-y-6">
-                <div className="prose prose-lg dark:prose-invert max-w-none text-justify">
-                  {aboutData.description.split('\n\n').map((paragraph, index) => (
-                    <p
-                      key={index}
-                      className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-
-                {/* Key Stats or Highlights */}
-                <div className="grid grid-cols-2 gap-6 mt-8">
-                  <Card className="text-center p-6 bg-gradient-to-br from-[#00b4d8]/5 to-[#0077b6]/5 border-[#00b4d8]/20">
-                    <CardContent className="p-0">
-                      <div className="text-2xl font-bold text-[#00b4d8] mb-2">4+</div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Years of Experience
-                      </p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="text-center p-6 bg-gradient-to-br from-[#0077b6]/5 to-[#00b4d8]/5 border-[#0077b6]/20">
-                    <CardContent className="p-0">
-                      <div className="text-2xl font-bold text-[#0077b6] mb-2">20+</div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Projects Completed
-                      </p>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* Mission Statement */}
-                <Card className="bg-gradient-to-r from-[#00b4d8]/10 to-[#0077b6]/10 border-l-4 border-l-[#00b4d8] mt-8">
-                  <CardContent className="p-6">
-                    <blockquote className="text-gray-700 dark:text-gray-300 italic">
-                      "I believe that technology and creativity move best together. Every line of code and every frame of motion is a chance to tell a story — where logic shapes movement, and design brings it to life."
-                    </blockquote>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
+          <div className="card-pendidikan bg-stone-900/80 border border-white/10 p-6 rounded-2xl backdrop-blur-md">
+            <span className="text-[#d3bc9b] font-montserrat text-xs">2026</span>
+            <h3 className="font-bebas text-2xl text-white mt-1">Koding Akademi</h3>
+            <p className="font-montserrat text-xs text-stone-400 mt-2">
+              Full Stack Web Developer - Bootcamp.
+            </p>
           </div>
         </div>
+      </div>
+
+      {/* PANEL 3: ROADMAP BELAJAR / SKILL JOURNEY */}
+      <div className="panel w-screen shrink-0 flex flex-col justify-center items-center px-12 md:px-24">
+        <h2 className="font-bebas text-5xl md:text-6xl text-[#d3bc9b] tracking-wide mb-12">
+          SKILL GROWTH ROADMAP
+        </h2>
+        
+        <div className="w-full max-w-3xl relative py-8">
+          {/* Base Line */}
+          <div className="w-full h-1 bg-stone-800 absolute top-1/2 left-0 -translate-y-1/2"></div>
+          {/* Animated Line */}
+          <div className="roadmap-line absolute top-1/2 left-0 -translate-y-1/2 h-1 w-full bg-[#d3bc9b]"></div>
+
+          {/* Roadmap Points */}
+          <div className="relative z-10 flex justify-between items-center w-full">
+            {[
+              { step: "01", title: "Frontend Core", desc: "HTML, CSS, JS, Tailwind" },
+              { step: "02", title: "Full-Stack Dev", desc: "React, Next.js, Prisma" },
+              { step: "03", title: "Motion & UI", desc: "GSAP, After Effects" }
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center text-center max-w-[150px]">
+                <div className="w-10 h-10 rounded-full bg-[#0e0d0d] border-2 border-[#d3bc9b] text-[#d3bc9b] font-bebas text-lg flex items-center justify-center mb-3">
+                  {item.step}
+                </div>
+                <h4 className="font-bebas text-xl text-white">{item.title}</h4>
+                <p className="font-montserrat text-[10px] text-stone-400 mt-1">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* PANEL 4: OUTRO / SCROLL PROMPT */}
+      <div className="w-screen shrink-0 flex flex-col justify-center items-center px-12">
+        <h1 className="font-bebas text-6xl md:text-8xl text-stone-700 text-center char-parallax">
+          KEEP SCROLLING <br />
+          <span className="text-[#d3bc9b]">TO EXPLORE PROJECTS</span>
+        </h1>
       </div>
     </section>
   );

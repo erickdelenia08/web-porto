@@ -1,6 +1,6 @@
 // Mock data for Erick Delenia's Portfolio
 
-import profile from "../assets/images/ErickDelenia_Foto.jpg"
+import profile from "../assets/images/profile.jpeg"
 
 export const personalInfo = {
   name: "Erick Delenia",
@@ -17,12 +17,12 @@ export const aboutData = {
 Beyond coding and data-related work, I am also passionate about motion graphics and visual storytelling, combining technical precision with creative design. I’m proficient in programming languages such as Python, JavaScript, and SQL, which I often integrate into creative projects to build interactive and visually engaging experiences.
 `,
   education: [
-    {
-      degree: "Informatics Engineering",
-      institution: "Institut Teknologi Sepuluh Nopember",
-      year: "2023-2025",
-      focus: "Data Science & Network Security"
-    },
+    // {
+    //   degree: "Informatics Engineering",
+    //   institution: "Institut Teknologi Sepuluh Nopember",
+    //   year: "2023-2025",
+    //   focus: "Data Science & Network Security"
+    // },
     {
       degree: "Bachelor of Mathematics",
       institution: "University of Jember",

@@ -89,9 +89,9 @@ const ContactSection = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0e0d0d] text-white min-h-screen flex items-center"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto w-full">
         <div
           className={`transform transition-all duration-1000 ${
             isVisible
@@ -101,65 +101,63 @@ const ContactSection = () => {
         >
           {/* Section Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Let's Work Together
+            <h2 className="font-bebas text-5xl sm:text-7xl text-[#d3bc9b] tracking-wide mb-2">
+              LET'S WORK TOGETHER
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Have a project in mind or just want to chat about IT and Motion graphic Project? 
-              I'd love to hear from you!
+            <p className="font-montserrat text-xs sm:text-sm text-stone-400 uppercase tracking-widest max-w-xl mx-auto">
+              Have a project in mind or just want to chat about Web Development & Motion Design?
             </p>
-            <div className="w-20 h-1 bg-gradient-to-r from-[#00b4d8] to-[#0077b6] mx-auto rounded-full" />
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-12">
+          <div className="grid lg:grid-cols-3 gap-8">
             {/* Contact Information */}
             <div
-              className={`lg:col-span-1 space-y-8 transform transition-all duration-1000 delay-300 ${
+              className={`lg:col-span-1 space-y-6 transform transition-all duration-1000 delay-300 ${
                 isVisible
                   ? "translate-x-0 opacity-100"
                   : "-translate-x-8 opacity-0"
               }`}
             >
               {/* Contact Details */}
-              <Card className="bg-gradient-to-br from-[#00b4d8]/5 to-[#0077b6]/5 border-[#00b4d8]/20">
+              <Card className="bg-stone-900/60 border border-white/10 backdrop-blur-md">
                 <CardHeader>
-                  <CardTitle className="flex items-center text-gray-900 dark:text-white">
-                    <MessageSquare className="w-5 h-5 mr-2 text-[#00b4d8]" />
-                    Get in Touch
+                  <CardTitle className="flex items-center font-bebas text-2xl tracking-wide text-white">
+                    <MessageSquare className="w-5 h-5 mr-3 text-[#d3bc9b]" />
+                    GET IN TOUCH
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-[#00b4d8]/10 rounded-lg">
-                      <Mail className="w-5 h-5 text-[#00b4d8]" />
+                <CardContent className="space-y-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-[#d3bc9b]/10 rounded-xl border border-[#d3bc9b]/20">
+                      <Mail className="w-5 h-5 text-[#d3bc9b]" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Email</p>
-                      <p className="font-medium text-gray-900 dark:text-white">
+                      <p className="font-montserrat text-xs text-stone-400 uppercase tracking-wider">Email</p>
+                      <p className="font-montserrat text-sm font-medium text-white">
                         {personalInfo.email}
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-[#0077b6]/10 rounded-lg">
-                      <MapPin className="w-5 h-5 text-[#0077b6]" />
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-[#d3bc9b]/10 rounded-xl border border-[#d3bc9b]/20">
+                      <MapPin className="w-5 h-5 text-[#d3bc9b]" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Location</p>
-                      <p className="font-medium text-gray-900 dark:text-white">
+                      <p className="font-montserrat text-xs text-stone-400 uppercase tracking-wider">Location</p>
+                      <p className="font-montserrat text-sm font-medium text-white">
                         {personalInfo.location}
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-[#00b4d8]/10 rounded-lg">
-                      <Phone className="w-5 h-5 text-[#00b4d8]" />
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-[#d3bc9b]/10 rounded-xl border border-[#d3bc9b]/20">
+                      <Phone className="w-5 h-5 text-[#d3bc9b]" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Response Time</p>
-                      <p className="font-medium text-gray-900 dark:text-white">
+                      <p className="font-montserrat text-xs text-stone-400 uppercase tracking-wider">Response Time</p>
+                      <p className="font-montserrat text-sm font-medium text-white">
                         Within 24 hours
                       </p>
                     </div>
@@ -168,25 +166,25 @@ const ContactSection = () => {
               </Card>
 
               {/* Social Links */}
-              <Card className="bg-gradient-to-br from-[#0077b6]/5 to-[#00b4d8]/5 border-[#0077b6]/20">
+              <Card className="bg-stone-900/60 border border-white/10 backdrop-blur-md">
                 <CardHeader>
-                  <CardTitle className="text-gray-900 dark:text-white">
-                    Connect With Me
+                  <CardTitle className="font-bebas text-2xl tracking-wide text-white">
+                    CONNECT WITH ME
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3">
                     {socialLinks.map((link, index) => {
                       const IconComponent = iconMap[link.icon] || Mail;
                       return (
                         <Button
                           key={index}
                           variant="outline"
-                          className="h-auto p-4 flex flex-col items-center space-y-2 border-[#00b4d8]/20 hover:bg-[#00b4d8]/10 hover:border-[#00b4d8] transition-all duration-300"
+                          className="h-auto py-3 px-4 flex flex-col items-center space-y-2 bg-stone-900/80 border-white/10 hover:border-[#d3bc9b] hover:bg-[#d3bc9b]/10 text-white transition-all duration-300"
                           onClick={() => window.open(link.url, "_blank")}
                         >
-                          <IconComponent className="w-6 h-6 text-[#00b4d8]" />
-                          <span className="text-sm font-medium">{link.name}</span>
+                          <IconComponent className="w-5 h-5 text-[#d3bc9b]" />
+                          <span className="font-montserrat text-xs font-semibold">{link.name}</span>
                         </Button>
                       );
                     })}
@@ -203,20 +201,20 @@ const ContactSection = () => {
                   : "translate-x-8 opacity-0"
               }`}
             >
-              <Card className="bg-white dark:bg-slate-800 shadow-lg">
+              <Card className="bg-stone-900/60 border border-white/10 backdrop-blur-md">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-gray-900 dark:text-white">
-                    Send me a message
+                  <CardTitle className="font-bebas text-3xl tracking-wide text-white">
+                    SEND A MESSAGE
                   </CardTitle>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    I'll get back to you as soon as possible!
+                  <p className="font-montserrat text-xs text-stone-400">
+                    Fill out the form below and I'll get back to you shortly.
                   </p>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="grid sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">
+                        <Label htmlFor="name" className="font-montserrat text-xs text-stone-300 uppercase tracking-wider">
                           Full Name *
                         </Label>
                         <Input
@@ -227,12 +225,12 @@ const ContactSection = () => {
                           value={formData.name}
                           onChange={handleInputChange}
                           required
-                          className="border-gray-300 dark:border-slate-600 focus:border-[#00b4d8] focus:ring-[#00b4d8]/20"
+                          className="bg-stone-950 border-white/10 text-white placeholder:text-stone-600 focus:border-[#d3bc9b] focus:ring-[#d3bc9b]/20 font-montserrat text-sm"
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">
+                        <Label htmlFor="email" className="font-montserrat text-xs text-stone-300 uppercase tracking-wider">
                           Email Address *
                         </Label>
                         <Input
@@ -243,13 +241,13 @@ const ContactSection = () => {
                           value={formData.email}
                           onChange={handleInputChange}
                           required
-                          className="border-gray-300 dark:border-slate-600 focus:border-[#00b4d8] focus:ring-[#00b4d8]/20"
+                          className="bg-stone-950 border-white/10 text-white placeholder:text-stone-600 focus:border-[#d3bc9b] focus:ring-[#d3bc9b]/20 font-montserrat text-sm"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message" className="text-gray-700 dark:text-gray-300">
+                      <Label htmlFor="message" className="font-montserrat text-xs text-stone-300 uppercase tracking-wider">
                         Message *
                       </Label>
                       <Textarea
@@ -260,18 +258,18 @@ const ContactSection = () => {
                         onChange={handleInputChange}
                         required
                         rows={6}
-                        className="border-gray-300 dark:border-slate-600 focus:border-[#00b4d8] focus:ring-[#00b4d8]/20 resize-none"
+                        className="bg-stone-950 border-white/10 text-white placeholder:text-stone-600 focus:border-[#d3bc9b] focus:ring-[#d3bc9b]/20 font-montserrat text-sm resize-none"
                       />
                     </div>
 
                     <Button
                       type="submit"
                       disabled={!isFormValid || isSubmitting}
-                      className="w-full bg-[#00b4d8] hover:bg-[#0077b6] text-white py-3 text-lg font-medium transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                      className="w-full bg-[#d3bc9b] hover:bg-[#b8a082] text-black font-montserrat text-xs font-bold py-4 uppercase tracking-widest transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <>
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                          <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin mr-2" />
                           Sending...
                         </>
                       ) : (
@@ -287,17 +285,17 @@ const ContactSection = () => {
             </div>
           </div>
 
-          {/* Call to Action */}
+          {/* Call to Action Banner */}
           <div className="text-center mt-16">
-            <div className="bg-gradient-to-r from-[#00b4d8]/10 to-[#0077b6]/10 rounded-2xl p-8 border border-[#00b4d8]/20">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                Ready to start your project?
+            <div className="bg-stone-900/40 rounded-2xl p-8 border border-[#d3bc9b]/30 backdrop-blur-md">
+              <h3 className="font-bebas text-3xl sm:text-4xl text-white tracking-wide mb-2">
+                READY TO START YOUR PROJECT?
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-                Let's discuss how I can help bring your ideas to life through IT or creative solutions.
+              <p className="font-montserrat text-xs text-stone-400 mb-6 max-w-xl mx-auto">
+                Let's discuss how I can help bring your ideas to life through creative design and robust technical execution.
               </p>
               <Button
-                className="bg-[#00b4d8] hover:bg-[#0077b6] text-white px-8 py-3 text-lg font-medium transition-all duration-300 hover:scale-105"
+                className="bg-[#d3bc9b] hover:bg-[#b8a082] text-black font-montserrat text-xs font-bold px-8 py-3 uppercase tracking-widest transition-all duration-300 hover:scale-105"
                 onClick={() => {
                   const emailElement = document.getElementById('email');
                   if (emailElement) emailElement.focus();
@@ -308,6 +306,7 @@ const ContactSection = () => {
               </Button>
             </div>
           </div>
+
         </div>
       </div>
     </section>

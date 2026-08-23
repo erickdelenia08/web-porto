@@ -24,27 +24,29 @@ const ProjectsSection = () => {
         if (error) throw error;
 
         // Dapatkan URL publik untuk video & thumbnail
-        const projectsWithUrls = await Promise.all(
-          data.map(async (project) => {
-            const {data:{publicUrl}} = supabase.storage
+        const projectsWithUrls =
+          data.map(project => {
+            const { data: { publicUrl } } = supabase.storage
               .from("images")
               .getPublicUrl(project.image_url);
-            project.image_url=publicUrl
-            return project;
+
+            return { ...project, image_url: publicUrl };
           })
-        );
+
 
         setProjects(projectsWithUrls);
         console.log(projectsWithUrls);
 
       } catch (err) {
         console.error("Error loading projects:", err);
-      } 
+      }
     };
 
     fetchProjects();
+  }, []);
 
 
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -63,7 +65,7 @@ const ProjectsSection = () => {
         observer.unobserve(sectionRef.current);
       }
     };
-  }, []);
+  }, [])
 
   const filteredProjects = projects.filter((project) => {
     if (filter === "all") return true;
