@@ -11,50 +11,62 @@ const AboutSection = () => {
   const sectionRef = useRef(null);
 
   useGSAP(() => {
-    const panels = gsap.utils.toArray("#about > div");
+    // Memakai matchMedia untuk memisahkan logika Desktop dan Mobile
+    let mm = gsap.matchMedia();
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        pin: true,
-        scrub: 1,
-        start: "top top",
-        end: () => `+=${sectionRef.current.offsetWidth * (panels.length - 1)}`,
-        invalidateOnRefresh: true,
-      }
+    // DESKTOP: (min-width: 768px) -> Jalankan Animasi Scroll Horizontal
+    mm.add("(min-width: 768px)", () => {
+      const panels = gsap.utils.toArray("#about > div");
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          pin: true,
+          scrub: 1,
+          start: "top top",
+          end: () => `+=${sectionRef.current.offsetWidth * (panels.length - 1)}`,
+          invalidateOnRefresh: true,
+        }
+      });
+
+      tl.to(panels, {
+        xPercent: -100 * (panels.length - 1),
+        ease: "none"
+      }, 0);
+
+      // PANEL 1: Typing Text
+      tl.to(".text-about", {
+        text: "CREATIVE DEVELOPER & DESIGNER",
+        duration: 0.1,
+      }, 0);
+
+      // PANEL 2: Cards Animation
+      tl.from(".card-pendidikan", {
+        opacity: 0,
+        y: 50,
+        stagger: 0.1,
+        duration: 0.2,
+      }, "<");
+
+      // PANEL 3: Line Growth
+      tl.from(".roadmap-line", {
+        scaleX: 0,
+        transformOrigin: "left center",
+        duration: 0.8,
+      }, 0.1);
+
+      tl.to(".char-parallax", {
+        xPercent: 20,
+        ease: "none"
+      }, "<+=-0.8");
     });
 
-    tl.to(panels, {
-      xPercent: -100 * (panels.length - 1),
-      ease: "none"
-    }, 0);
+    // MOBILE: (max-width: 767px) -> Cukup set teks default tanpa animasi scrub
+    mm.add("(max-width: 767px)", () => {
+      gsap.set(".text-about", { text: "CREATIVE DEVELOPER & DESIGNER" });
+    });
 
-    // PANEL 1: Typing Text
-    tl.to(".text-about", {
-      text: "CREATIVE DEVELOPER & DESIGNER",
-      duration: 0.1,
-    }, 0);
-
-    // PANEL 2: Cards Animation
-    tl.from(".card-pendidikan", {
-      opacity: 0,
-      y: 50,
-      stagger: 0.1,
-      duration: 0.2,
-    }, "<");
-
-    // PANEL 3: Line Growth
-    tl.from(".roadmap-line", {
-      scaleX: 0,
-      transformOrigin: "left center",
-      duration: 0.8,
-    }, 0.1);
-
-    tl.to(".char-parallax", {
-      xPercent: 20,
-      ease: "none"
-    }, "<+=-0.8");
-
+    return () => mm.revert(); // Cleanup saat unmount
   }, { scope: sectionRef });
 
   return (
@@ -63,27 +75,27 @@ const AboutSection = () => {
       ref={sectionRef}
       className="bg-[#0e0d0d] text-white h-screen w-full flex flex-nowrap overflow-hidden"
     >
-      {/* PANEL 1: INTRO & CHARACTER */}
-      <div className="w-screen shrink-0 flex items-center justify-between px-12 md:px-24">
-        <div className="flex-1 space-y-4">
+      {/* PANEL 1: INTRO & CHARACTER (Aktif di Mobile & Desktop) */}
+      <div className="w-screen shrink-0 flex flex-col-reverse md:flex-row items-center justify-center md:justify-between px-6 md:px-24 py-12 md:py-0 gap-6">
+        <div className="flex-1 space-y-3 md:space-y-4 text-center md:text-left">
           <span className="font-montserrat text-xs text-[#d3bc9b] tracking-widest uppercase">
             // ABOUT ME
           </span>
-          <h1 className="font-bebas text-6xl md:text-8xl text-white leading-none">
+          <h1 className="font-bebas text-5xl sm:text-6xl md:text-8xl text-white leading-none">
             ERICK <br />
             <span className="text-[#d3bc9b] text-about">...</span>
           </h1>
-          <p className="font-montserrat text-sm text-stone-400 max-w-md leading-relaxed">
-            Fokus menciptakan solusi digital yang menggabungkan struktur kode *full-stack* yang efisien dengan animasi *motion graphics* yang impresif.
+          <p className="font-montserrat text-xs md:text-sm text-stone-400 max-w-md leading-relaxed mx-auto md:mx-0">
+            We focus on creating digital solutions that combine efficient *full-stack* code architecture with impressive *motion graphics* animations.
           </p>
         </div>
         <div className="flex-1 flex justify-center items-center">
-          <Character className="h-2/3 character" />
+          <Character className="max-h-[250px] sm:max-h-[350px] md:max-h-[500px] character" />
         </div>
       </div>
 
-      {/* PANEL 2: EDUCATION & EXPERIENCE */}
-      <div className="panel w-screen shrink-0 flex flex-col justify-center items-center px-12 md:px-24">
+      {/* PANEL 2: EDUCATION & EXPERIENCE (Disembunyikan di Mobile) */}
+      <div className="panel hidden md:flex w-screen shrink-0 flex-col justify-center items-center px-12 md:px-24">
         <h2 className="font-bebas text-5xl md:text-6xl text-[#d3bc9b] tracking-wide mb-8">
           EDUCATION
         </h2>
@@ -114,19 +126,16 @@ const AboutSection = () => {
         </div>
       </div>
 
-      {/* PANEL 3: ROADMAP BELAJAR / SKILL JOURNEY */}
-      <div className="panel w-screen shrink-0 flex flex-col justify-center items-center px-12 md:px-24">
+      {/* PANEL 3: ROADMAP BELAJAR (Disembunyikan di Mobile) */}
+      <div className="panel hidden md:flex w-screen shrink-0 flex-col justify-center items-center px-12 md:px-24">
         <h2 className="font-bebas text-5xl md:text-6xl text-[#d3bc9b] tracking-wide mb-12">
           SKILL GROWTH ROADMAP
         </h2>
         
         <div className="w-full max-w-3xl relative py-8">
-          {/* Base Line */}
           <div className="w-full h-1 bg-stone-800 absolute top-1/2 left-0 -translate-y-1/2"></div>
-          {/* Animated Line */}
           <div className="roadmap-line absolute top-1/2 left-0 -translate-y-1/2 h-1 w-full bg-[#d3bc9b]"></div>
 
-          {/* Roadmap Points */}
           <div className="relative z-10 flex justify-between items-center w-full">
             {[
               { step: "01", title: "Frontend Core", desc: "HTML, CSS, JS, Tailwind" },
@@ -145,8 +154,8 @@ const AboutSection = () => {
         </div>
       </div>
 
-      {/* PANEL 4: OUTRO / SCROLL PROMPT */}
-      <div className="w-screen shrink-0 flex flex-col justify-center items-center px-12">
+      {/* PANEL 4: OUTRO (Disembunyikan di Mobile) */}
+      <div className="hidden md:flex w-screen shrink-0 flex-col justify-center items-center px-12">
         <h1 className="font-bebas text-6xl md:text-8xl text-stone-700 text-center char-parallax">
           KEEP SCROLLING <br />
           <span className="text-[#d3bc9b]">TO EXPLORE PROJECTS</span>

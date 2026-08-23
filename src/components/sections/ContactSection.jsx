@@ -28,6 +28,8 @@ const ContactSection = () => {
   const sectionRef = useRef(null);
   const { toast } = useToast();
 
+  const whatsappNumber = "6281334031474"; 
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -57,23 +59,28 @@ const ContactSection = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      console.log("Form submitted:", formData);
-      
-      toast({
-        title: "Message Sent!",
-        description: contactFormData.successMessage,
-      });
-      
-      // Reset form
-      setFormData({ name: "", email: "", message: "" });
-      setIsSubmitting(false);
-    }, 2000);
+    // Format pesan WhatsApp
+    const messageText = `Halo Erick,\n\nSaya ingin berkomunikasi terkait project:\n\n*Nama:* ${formData.name}\n*Email:* ${formData.email}\n*Pesan:* ${formData.message}`;
+
+    // Encode URL agar aman dibaca oleh browser
+    const encodedMessage = encodeURIComponent(messageText);
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
+    // Buka tautan WhatsApp di tab baru
+    window.open(whatsappUrl, "_blank");
+
+    toast({
+      title: "Redirecting to WhatsApp!",
+      description: "Membuka WhatsApp untuk mengirim pesan...",
+    });
+
+    // Reset Form
+    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(false);
   };
 
   const isFormValid = formData.name && formData.email && formData.message;
@@ -207,7 +214,7 @@ const ContactSection = () => {
                     SEND A MESSAGE
                   </CardTitle>
                   <p className="font-montserrat text-xs text-stone-400">
-                    Fill out the form below and I'll get back to you shortly.
+                    Fill out the form below and it will directly open your WhatsApp.
                   </p>
                 </CardHeader>
                 <CardContent>
@@ -270,12 +277,12 @@ const ContactSection = () => {
                       {isSubmitting ? (
                         <>
                           <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin mr-2" />
-                          Sending...
+                          Redirecting...
                         </>
                       ) : (
                         <>
                           <Send className="w-4 h-4 mr-2" />
-                          Send Message
+                          Send to WhatsApp
                         </>
                       )}
                     </Button>
@@ -297,8 +304,8 @@ const ContactSection = () => {
               <Button
                 className="bg-[#d3bc9b] hover:bg-[#b8a082] text-black font-montserrat text-xs font-bold px-8 py-3 uppercase tracking-widest transition-all duration-300 hover:scale-105"
                 onClick={() => {
-                  const emailElement = document.getElementById('email');
-                  if (emailElement) emailElement.focus();
+                  const nameElement = document.getElementById('name');
+                  if (nameElement) nameElement.focus();
                 }}
               >
                 <Mail className="w-4 h-4 mr-2" />

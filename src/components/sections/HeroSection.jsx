@@ -26,8 +26,9 @@ export default function HeroSection() {
   }, { scope: containerRef });
 
   return (
-    <section 
-      ref={containerRef} 
+    <section
+      id="home"
+      ref={containerRef}
       className="relative h-screen bg-[#0e0d0d] text-white flex flex-col justify-center md:justify-end items-center overflow-hidden pt-16 md:pt-24 pb-0 px-4 md:px-12"
     >
       {/* Background Typography */}
@@ -37,7 +38,7 @@ export default function HeroSection() {
 
       {/* Hero Visual Container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center h-full justify-center md:justify-end">
-        
+
         {/* Person Photo:
             - Mobile: Position absolute center (vertikal & horizontal)
             - Desktop: Positioned at bottom center
@@ -58,7 +59,7 @@ export default function HeroSection() {
               FULL STACK DEVELOPER
             </h2>
             <p className="font-montserrat text-xs text-stone-400 leading-relaxed">
-              Membangun aplikasi web full-stack modern dengan arsitektur sistem yang handal, efisien, dan berskala tinggi.
+              Building modern full-stack web applications with a reliable, efficient, and highly scalable system architecture.
             </p>
           </div>
 
@@ -68,7 +69,7 @@ export default function HeroSection() {
               MOTION GRAPHIC DESIGNER
             </h2>
             <p className="font-montserrat text-xs text-stone-400 leading-relaxed">
-              Merancang animasi UI dan interaksi visual dinamis untuk menciptakan pengalaman pengguna yang sinematik.
+              Designing dynamic UI animations and visual interactions to create a cinematic user experience.
             </p>
           </div>
         </div>
@@ -80,7 +81,7 @@ export default function HeroSection() {
               FULL STACK DEVELOPER
             </h2>
             <p className="font-montserrat text-xs text-stone-400 leading-relaxed max-w-xs">
-              Membangun aplikasi web full-stack modern dengan arsitektur sistem yang handal.
+              Building modern full-stack web applications with a reliable, efficient, and highly scalable system architecture.
             </p>
           </div>
 
@@ -89,7 +90,7 @@ export default function HeroSection() {
               MOTION GRAPHIC DESIGNER
             </h2>
             <p className="font-montserrat text-xs text-stone-400 leading-relaxed max-w-xs">
-              Merancang animasi UI dan interaksi visual dinamis yang sinematik.
+              Designing dynamic UI animations and visual interactions to create a cinematic user experience.
             </p>
           </div>
         </div>
