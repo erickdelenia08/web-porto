@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,6 +27,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  const handleScrollTo = (e, targetId) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Prevent scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -38,10 +49,9 @@ export default function Navbar() {
   return (
     <>
       {/* Header Container (Auto Hide on Scroll Down) */}
-      <header 
-        className={`fixed left-0 w-full z-50 flex justify-center px-4 transition-transform duration-300 ease-in-out ${
-          isScrolled ? '-translate-y-[150%]' : 'translate-y-6'
-        }`}
+      <header
+        className={`fixed left-0 w-full z-50 flex justify-center px-4 transition-transform duration-300 ease-in-out ${isScrolled ? '-translate-y-[150%]' : 'translate-y-6'
+          }`}
       >
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8 px-10 py-3 bg-[#a88a64] rounded-full shadow-lg">
@@ -49,6 +59,7 @@ export default function Navbar() {
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
+              onClick={(e) => handleScrollTo(e, item.toLowerCase())}
               className="font-montserrat text-sm font-bold tracking-wider text-black hover:opacity-75 transition-opacity"
             >
               {item}
@@ -58,7 +69,7 @@ export default function Navbar() {
 
         {/* Mobile Hamburger Icon (Visible only on small screens) */}
         <div className="flex md:hidden w-full justify-end">
-          <button 
+          <button
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Open Menu"
             className="p-3 bg-[#a88a64] text-black rounded-full shadow-lg focus:outline-none"
@@ -71,10 +82,9 @@ export default function Navbar() {
       </header>
 
       {/* --- MOBILE FULLSCREEN MENU OVERLAY --- */}
-      <div 
-        className={`fixed inset-0 bg-[#0e0d0d] z-[60] flex flex-col justify-center items-center transition-all duration-500 ease-in-out ${
-          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-        }`}
+      <div
+        className={`fixed inset-0 bg-[#0e0d0d] z-[60] flex flex-col justify-center items-center transition-all duration-500 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+          }`}
       >
         {/* Close Button */}
         <button
@@ -90,9 +100,9 @@ export default function Navbar() {
         {/* Mobile Nav Links */}
         <nav className="flex flex-col gap-8 text-center">
           {navItems.map((item, index) => (
-            <a
+            <Link
               key={item}
-              href={`#${item.toLowerCase()}`}
+              to={`#${item.toLowerCase()}`}
               onClick={() => setIsMobileMenuOpen(false)}
               className="font-bebas text-5xl tracking-widest text-[#a88a64] hover:text-white transition-colors"
               style={{
@@ -103,7 +113,7 @@ export default function Navbar() {
               }}
             >
               {item}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>

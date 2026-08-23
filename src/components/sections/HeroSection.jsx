@@ -43,11 +43,11 @@ export default function HeroSection() {
             - Mobile: Position absolute center (vertikal & horizontal)
             - Desktop: Positioned at bottom center
         */}
-        <div className="hero-photo absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-auto md:bottom-0 md:translate-y-0 w-[240px] sm:w-[320px] md:w-[420px] z-10 leading-none hidden md:block">
+        <div className="hero-photo absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-auto md:bottom-0 md:translate-y-0 w-[240px] sm:w-[320px] md:w-[470px] xl:w-[550px] z-10 leading-none hidden md:block">
           <img
             src="/profile.png"
             alt="Erick Profile"
-            className="w-full h-auto block object-cover mask-linear-gradient drop-shadow-[0_0_4px_rgba(0,0,0,0.5)] mx-auto"
+            className="w-full h-auto block object-cover  drop-shadow-[0_0_70px_rgba(0,0,0,0.8)] mx-auto"
           />
         </div>
 
