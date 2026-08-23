@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { ExternalLink } from 'lucide-react'; // Menggunakan icon ExternalLink (opsional)
 
 // Register Plugin GSAP
 gsap.registerPlugin(ScrollTrigger);
@@ -82,7 +83,7 @@ export default function FeaturedProject() {
             </p>
 
             {/* Tech Stack Pills */}
-            <div className="flex flex-wrap gap-2 pt-4">
+            <div className="flex flex-wrap gap-2 pt-2">
               {techStack.map((tech, idx) => (
                 <span
                   key={idx}
@@ -91,6 +92,19 @@ export default function FeaturedProject() {
                   {tech}
                 </span>
               ))}
+            </div>
+
+            {/* Action Button - Visit Website */}
+            <div className="pt-4">
+              <a
+                href="https://codegraph.my.id"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#d3bc9b] hover:bg-[#b8a082] text-black font-montserrat text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg hover:scale-105"
+              >
+                <span>Visit Website</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
